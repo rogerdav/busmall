@@ -1,5 +1,18 @@
+section div{
+  height: 300px;
+  width: 300px;
+  border: solid black;
+
+}
+section div img {
+  height: 300px;
+  width: 300px;
+}
 section {
   height: 300px;
   width: 300px;
-  
+}
+
+main {
+  display: inline-flex;
 }
