@@ -8,7 +8,6 @@ var frame2 = document.getElementById('section_two');
 var frame3 = document.getElementById('section_three');
 
 
-
 // constructor function??
 function Picture(name) {
   this.filename = name;
@@ -19,12 +18,10 @@ function Picture(name) {
 
 
 
-for (var i = 0; i < imagesToUse.length; i++) {
-  var newImage = new Picture(imagesToUse[i]);
-  arrOfObjects.push(newImage);
-}
+
 
 var lastDisplayed = [];
+var currentDisplayed;
 
 function getRandomIntInclusive() {
   return Math.floor(Math.random() * (19 - 0 + 0)) + 0;
@@ -38,17 +35,18 @@ function unique() {
   return temp;
 }
 
-
-var a = unique();
-var b = unique();
-var c = unique();
-while ( a === b || b === c || a === c ) {
-  b = unique();
-  while ( a === c || b === c) {
-    c = unique();
+function getNewThree() {
+  var a = unique();
+  var b = unique();
+  var c = unique();
+  while ( a === b || b === c || a === c ) {
+    b = unique();
+    while ( a === c || b === c) {
+      c = unique();
+    }
   }
+  return[a,b,c];
 }
-
 
 
 
@@ -57,7 +55,6 @@ while ( a === b || b === c || a === c ) {
 
 // frame one picture append
 function displayPictures(x, y, z) {
-
   var frame1img;
   frame1img = document.createElement('div');
   var textToAppendFrame1 = '<img src="' + arrOfObjects[x].path + '" >';
@@ -66,13 +63,13 @@ function displayPictures(x, y, z) {
   frame1.appendChild(frame1img);
 
 
+
   var frame2img;
   frame2img = document.createElement('div');
-  var textToAppendFrame2 = '<img src="' + arrOfObjects[y].path + '" >';
+  var textToAppendFrame2 = '<img id="' + arrOfObjects[y].filename + '" "src="' + arrOfObjects[y].path + '" >';
   console.log(textToAppendFrame2);
   frame2img.innerHTML = textToAppendFrame2;
   frame2.appendChild(frame2img);
-
   var frame3img;
   frame3img = document.createElement('div');
   var textToAppendFrame3 = '<img src="' + arrOfObjects[z].path + '" >';
@@ -82,5 +79,54 @@ function displayPictures(x, y, z) {
 
 }
 
-console.log(lastDisplayed);
-displayPictures(a,b,c);
+// this is the start of the code flow
+
+for (var i = 0; i < imagesToUse.length; i++) { //populates the array with pic objects
+  var newImage = new Picture(imagesToUse[i]);
+  arrOfObjects.push(newImage);
+}
+console.log(imagesToUse);
+var initial3 = getNewThree(); //generate 3 numbers to start with
+console.log('newthree',initial3);
+
+displayPictures(initial3[0],initial3[1],initial3[2]); //displays the starting 3 pictures
+
+// for ( var t = 0; t < 2; t++) {
+//   frame1.addEventListener('click',function() {
+//     globalCounter++;
+//     var frame1src = this.getAttribute('src');
+//     console.log(frame1src);
+//   });
+//   frame2.addEventListener('click',function() {
+//     globalCounter++;
+//     var frame2src = this.getAttribute('src');
+//     console.log(frame2src);
+//   });
+//   frame3.addEventListener('click',function() {
+//     globalCounter++;
+//     var frame3src = this.getAttribute('src');
+//     console.log(frame3src);
+//   });
+// }
+
+
+
+
+
+
+
+
+
+
+// for (var k = 0; k < 5; k++) {
+//   frame1.addEventListener('click',function() {
+//     globalCounter++;
+//   });
+//   frame2.addEventListener('click',function() {
+//     globalCounter++;
+//   });
+//   frame3.addEventListener('click',function() {
+//     globalCounter++;
+//   });
+//
+// }
