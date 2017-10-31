@@ -17,32 +17,42 @@ function Picture(name) {
   this.timesClicked = 0;
 }
 
-function getRandomIntInclusive() {
-  return Math.floor(Math.random() * (19 - 0 + 0)) + 0;
-}
+
 
 for (var i = 0; i < imagesToUse.length; i++) {
   var newImage = new Picture(imagesToUse[i]);
   arrOfObjects.push(newImage);
 }
 
-var a = getRandomIntInclusive();
-console.log(a);
-var last_a;
-var b = getRandomIntInclusive();
-console.log(b);
-var last_b;
-var c = getRandomIntInclusive();
-console.log(c);
-var last_c;
+var lastDisplayed = [];
 
+function getRandomIntInclusive() {
+  return Math.floor(Math.random() * (19 - 0 + 0)) + 0;
+}
+// checks ramdom generated number agaist items displayed last
+function unique() {
+  var temp = getRandomIntInclusive();
+  while (lastDisplayed.includes(temp)) {
+    temp = getRandomIntInclusive();
+  }
+  return temp;
+}
+
+
+var a = unique();
+var b = unique();
+var c = unique();
 while ( a === b || b === c || a === c ) {
-  b = getRandomIntInclusive();
+  b = unique();
   while ( a === c || b === c) {
-    c = getRandomIntInclusive();
+    c = unique();
   }
 }
-console.log(a,b,c);
+
+
+
+
+
 
 
 // frame one picture append
@@ -54,6 +64,7 @@ function displayPictures(x, y, z) {
   console.log(textToAppendFrame1);
   frame1img.innerHTML = textToAppendFrame1;
   frame1.appendChild(frame1img);
+
 
   var frame2img;
   frame2img = document.createElement('div');
@@ -71,4 +82,5 @@ function displayPictures(x, y, z) {
 
 }
 
+console.log(lastDisplayed);
 displayPictures(a,b,c);
