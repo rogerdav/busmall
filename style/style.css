@@ -1,10 +1,10 @@
-section div{
+section{
   height: 300px;
   width: 300px;
   border: solid black;
 
 }
-section div img {
+section img {
   height: 300px;
   width: 300px;
 }
