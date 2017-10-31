@@ -28,12 +28,15 @@ for (var i = 0; i < imagesToUse.length; i++) {
 
 var a = getRandomIntInclusive();
 console.log(a);
+var last_a;
 var b = getRandomIntInclusive();
 console.log(b);
+var last_b;
 var c = getRandomIntInclusive();
 console.log(c);
+var last_c;
 
-while ( a === b || b === c || a === c) {
+while ( a === b || b === c || a === c ) {
   b = getRandomIntInclusive();
   while ( a === c || b === c) {
     c = getRandomIntInclusive();
