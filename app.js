@@ -6,6 +6,7 @@ var arrOfObjects = [];
 var frame1 = document.getElementById('section_one');
 var frame2 = document.getElementById('section_two');
 var frame3 = document.getElementById('section_three');
+
 var lastDisplayed = [];
 
 // constructor function??
@@ -107,6 +108,13 @@ function ifImageClicked(event) {
     while (main.hasChildNodes()) {
       main.removeChild(main.firstChild);
     };
+    var canvas = document.createElement('canvas');
+    canvas.setAttribute('id','totalchart');
+    canvas.style.height = '500px';
+    canvas.style.width = '500px';
+    main.appendChild(canvas);
+
+
   }
   return;
 }
