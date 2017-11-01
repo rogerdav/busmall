@@ -7,7 +7,8 @@ var frame1 = document.getElementById('section_one');
 var frame2 = document.getElementById('section_two');
 var frame3 = document.getElementById('section_three');
 var arrOfTotalClicks = [];
-var arrOfTimesClicked = [];
+var arrOfTimesDisplayed = [];
+var arrOfPercentClicked = [];
 var lastDisplayed = [];
 
 // constructor function??
@@ -19,7 +20,7 @@ function Picture(name) {
 }
 
 function getRandomIntInclusive() {
-  return Math.floor(Math.random() * (19 - 0 + 0)) + 0;
+  return Math.floor(Math.random() * (20 - 0 + 0)) + 0;
 }
 // checks ramdom generated number agaist items displayed last
 function unique() {
@@ -88,7 +89,8 @@ function listenAndCount() {
 function calculateData() {
   for (var w = 0; w < arrOfObjects.length; w++) {
     arrOfTotalClicks[w] = arrOfObjects[w].timesClicked;
-    arrOfTimesClicked[w] = arrOfObjects[w].timesDisplayed;
+    arrOfTimesDisplayed[w] = arrOfObjects[w].timesDisplayed;
+    arrOfPercentClicked[w] = arrOfObjects[w].timesClicked / arrOfObjects[w].timesDisplayed * 100;
   }
 
 }
@@ -119,10 +121,24 @@ function populateChart () {
       labels: imagesToUse,
       datasets: [{
         label: 'Votes by Image',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'black',
+        borderColor: 'black',
         data: arrOfTotalClicks,
-      }]
+      },
+      {
+        label: 'Times Displayed',
+        backgroundColor: 'red',
+        borderColor: 'red',
+        data: arrOfTimesDisplayed,
+      },
+      {
+        label: '% Chosen',
+        backgroundColor: 'green',
+        borderColor: 'green',
+        data: arrOfPercentClicked,
+      }
+      ]
+
     },
 
     // Configuration options go here
