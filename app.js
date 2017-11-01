@@ -84,13 +84,52 @@ function listenAndCount() {
   image3[0].addEventListener('click',ifImageClicked);
 }
 
+function clearLastPage () {
+  console.log('im in clear last page');
+  var main = document.getElementsByTagName('main')[0];
+  while (main.hasChildNodes()) {
+    main.removeChild(main.firstChild);
+  }
+}
+function createCanvas() {
+  var main = document.getElementsByTagName('main')[0];
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute('id','totalchart');
+  canvas.style.height = '600px';
+  canvas.style.width = '960px';
+  main.appendChild(canvas);
+}
+
+function populateChart () {
+  var ctx = document.getElementById('totalchart').getContext('2d');
+  console.log(ctx);
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [{
+        label: 'Votes by Image',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [0, 10, 5, 2, 20, 30, 45],
+      }]
+    },
+
+    // Configuration options go here
+    options: {}
+  });
+}
+
 function ifImageClicked(event) {
   if(globalCounter < 25) {
 
     lastDisplayed = initial3;
     initial3 = getNewThree();
     globalCounter++;
-    var product = event.target.src.split('/').pop();
+    var product = event.target.src.split('/').pop();//takes the filemane off of the string.
 
     for (var u = 0; u < arrOfObjects.length; u++) {
       if (product === arrOfObjects[u].filename ) {
@@ -103,15 +142,16 @@ function ifImageClicked(event) {
     displayPictures(initial3[0],initial3[1],initial3[2]);
     listenAndCount();
   } else {
-    var main = document.getElementsByTagName('main')[0];
-    while (main.hasChildNodes()) {
-      main.removeChild(main.firstChild);
-    };
+    console.log('im inside else section');
+    clearLastPage();
+    createCanvas();
+    populateChart();
+  };
 
-
-  }
   return;
 }
+
+
 // code start to run here
 
 for (var i = 0; i < imagesToUse.length; i++) { //populates the array with pic objects
