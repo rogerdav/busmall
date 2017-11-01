@@ -8,8 +8,6 @@ var frame2 = document.getElementById('section_two');
 var frame3 = document.getElementById('section_three');
 var lastDisplayed = [];
 
-
-
 // constructor function??
 function Picture(name) {
   this.filename = name;
@@ -17,8 +15,6 @@ function Picture(name) {
   this.timesDisplayed = 0;
   this.timesClicked = 0;
 }
-
-
 
 function getRandomIntInclusive() {
   return Math.floor(Math.random() * (19 - 0 + 0)) + 0;
@@ -51,24 +47,26 @@ function displayPictures(x, y, z) {
   var frame1img;
   frame1img = document.createElement('div');
   var textToAppendFrame1 = '<img src="' + arrOfObjects[x].path + '" >';
-  console.log(textToAppendFrame1);
+  arrOfObjects[x].timesDisplayed++;
+  //console.log(textToAppendFrame1);
   frame1img.innerHTML = textToAppendFrame1;
   frame1.appendChild(frame1img);
   var frame2img;
   frame2img = document.createElement('div');
   var textToAppendFrame2 = '<img src="' + arrOfObjects[y].path + '" >';
-  console.log(textToAppendFrame2);
+  arrOfObjects[y].timesDisplayed++;
+  //console.log(textToAppendFrame2);
   frame2img.innerHTML = textToAppendFrame2;
   frame2.appendChild(frame2img);
   var frame3img;
   frame3img = document.createElement('div');
   var textToAppendFrame3 = '<img src="' + arrOfObjects[z].path + '" >';
-  console.log(textToAppendFrame3);
+  arrOfObjects[z].timesDisplayed++;
+  //console.log(textToAppendFrame3);
   frame3img.innerHTML = textToAppendFrame3;
   frame3.appendChild(frame3img);
 
 }
-
 
 function clearPage() {
   frame1.innerHTML = '';
@@ -81,7 +79,6 @@ function listenAndCount() {
   var image1 = frame1.getElementsByTagName('img');
   var image2 = frame2.getElementsByTagName('img');
   var image3 = frame3.getElementsByTagName('img');
-
   image1[0].addEventListener('click',ifImageClicked);
   image2[0].addEventListener('click',ifImageClicked);
   image3[0].addEventListener('click',ifImageClicked);
@@ -98,12 +95,18 @@ function ifImageClicked(event) {
     for (var u = 0; u < arrOfObjects.length; u++) {
       if (product === arrOfObjects[u].filename ) {
         arrOfObjects[u].timesClicked++;
-        console.log('filename + times clicked',arrOfObjects[u].timesClicked);
+        //console.log('filename + times clicked',arrOfObjects[u].timesClicked);
       }
     }
+
     clearPage();
     displayPictures(initial3[0],initial3[1],initial3[2]);
     listenAndCount();
+  } else {
+    var main = document.getElementsByTagName('main')[0];
+    while (main.hasChildNodes()) {
+      main.removeChild(main.firstChild);
+    };
   }
   return;
 }

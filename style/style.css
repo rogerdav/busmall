@@ -16,3 +16,9 @@ section {
 main {
   display: inline-flex;
 }
+header {
+  text-align: center;
+}
+#section_one {
+  margin-left: 150px;
+}
