@@ -66,7 +66,6 @@ function displayPictures(x, y, z) {
   //console.log(textToAppendFrame3);
   frame3img.innerHTML = textToAppendFrame3;
   frame3.appendChild(frame3img);
-
 }
 
 function clearPage() {
@@ -108,11 +107,6 @@ function ifImageClicked(event) {
     while (main.hasChildNodes()) {
       main.removeChild(main.firstChild);
     };
-    var canvas = document.createElement('canvas');
-    canvas.setAttribute('id','totalchart');
-    canvas.style.height = '500px';
-    canvas.style.width = '500px';
-    main.appendChild(canvas);
 
 
   }
@@ -127,5 +121,5 @@ for (var i = 0; i < imagesToUse.length; i++) { //populates the array with pic ob
 
 var initial3 = getNewThree(); //generate 3 numbers to start with
 displayPictures(initial3[0],initial3[1],initial3[2]); //displays the starting 3 pictures
-globalCounter++;
-listenAndCount();
+globalCounter++; //adds initial vaue to counter
+listenAndCount(); // starts the listen function on images
