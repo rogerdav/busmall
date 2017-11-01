@@ -6,7 +6,8 @@ var arrOfObjects = [];
 var frame1 = document.getElementById('section_one');
 var frame2 = document.getElementById('section_two');
 var frame3 = document.getElementById('section_three');
-
+var arrOfTotalClicks = [];
+var arrOfTimesClicked = [];
 var lastDisplayed = [];
 
 // constructor function??
@@ -84,6 +85,13 @@ function listenAndCount() {
   image3[0].addEventListener('click',ifImageClicked);
 }
 
+function calculateData() {
+  for (var w = 0; w < arrOfObjects.length; w++) {
+    arrOfTotalClicks[w] = arrOfObjects[w].timesClicked;
+    arrOfTimesClicked[w] = arrOfObjects[w].timesDisplayed;
+  }
+
+}
 function clearLastPage () {
   console.log('im in clear last page');
   var main = document.getElementsByTagName('main')[0];
@@ -102,19 +110,18 @@ function createCanvas() {
 
 function populateChart () {
   var ctx = document.getElementById('totalchart').getContext('2d');
-  console.log(ctx);
   var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'bar',
 
     // The data for our dataset
     data: {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      labels: imagesToUse,
       datasets: [{
         label: 'Votes by Image',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
-        data: [0, 10, 5, 2, 20, 30, 45],
+        data: arrOfTotalClicks,
       }]
     },
 
@@ -144,6 +151,7 @@ function ifImageClicked(event) {
   } else {
     console.log('im inside else section');
     clearLastPage();
+    calculateData();
     createCanvas();
     populateChart();
   };
