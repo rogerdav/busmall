@@ -70,14 +70,14 @@ function displayPictures(x, y, z) {
   frame3img.innerHTML = textToAppendFrame3;
   frame3.appendChild(frame3img);
 }
-
+// clearpage clears the images from the frame
 function clearPage() {
   frame1.innerHTML = '';
   frame2.innerHTML = '';
   frame3.innerHTML = '';
 
 }
-
+// sets the event listners on the three images
 function listenAndCount() {
   var image1 = frame1.getElementsByTagName('img');
   var image2 = frame2.getElementsByTagName('img');
@@ -86,15 +86,15 @@ function listenAndCount() {
   image2[0].addEventListener('click',ifImageClicked);
   image3[0].addEventListener('click',ifImageClicked);
 }
-
+// populates the arrays with the final data
 function calculateData() {
   arrOfObjects = JSON.parse(localStorage.arrOfObjects);
   for (var w = 0; w < arrOfObjects.length; w++) {
     arrOfTotalClicks[w] = arrOfObjects[w].timesClicked;
     arrOfTimesDisplayed[w] = arrOfObjects[w].timesDisplayed;
-    arrOfPercentClicked[w] = arrOfObjects[w].timesClicked / arrOfObjects[w].timesDisplayed * 100;
+    arrOfPercentClicked[w] = arrOfObjects[w].timesClicked / arrOfObjects[w].timesDisplayed * 10;
   }
-
+// clears page after all images have been shown and
 }
 function clearLastPage () {
   console.log('im in clear last page');
@@ -103,24 +103,26 @@ function clearLastPage () {
     main.removeChild(main.firstChild);
   }
 }
+//creates the canvas space on the page, aslo attaches a reset button
 function createCanvas() {
   var main = document.getElementsByTagName('main')[0];
   var btn = document.createElement('div');
   btn.innerHTML = '<button id="btn">Reset</button>';
   var canvas = document.createElement('canvas');
   canvas.setAttribute('id','totalchart');
-  canvas.style.height = '600px';
-  canvas.style.width = '960px';
+  canvas.style.height = '150px';
+  canvas.style.width = '300px';
   main.appendChild(canvas);
   main.appendChild(btn);
   var resetbtn = document.getElementsByTagName('button');
   resetbtn[0].addEventListener('click',resetPage);
 }
-
+// clears local storage and resets page
 function resetPage(event) {
   localStorage.clear();
   window.location.reload();
 }
+// pulls the data from total arrays
 function populateChart () {
   var ctx = document.getElementById('totalchart').getContext('2d');
   var chart = new Chart(ctx, {
@@ -156,7 +158,7 @@ function populateChart () {
     options: {}
   });
 }
-
+// main for loop to cycle through the images.
 function ifImageClicked(event) {
   if(globalCounter < 25) {
 
@@ -189,6 +191,7 @@ function ifImageClicked(event) {
 
   return;
 }
+// initiat the counters and set the first three images on the page.
 function initiatePage() {
   globalCounter = 0;
   for (var i = 0; i < imagesToUse.length; i++) { //populates the array with pic objects
@@ -199,7 +202,8 @@ function initiatePage() {
   displayPictures(initial3[0],initial3[1],initial3[2]); //displays the starting 3 pictures
   listenAndCount(); // starts the listen function on images
 }
-
+// if local storage counter is null then initiates page, if you are returning to the page
+// halfway through the process it will return you to the exact point that you left off.
 if (!localStorage.globalCounter) {
   initiatePage();
 } else if (Number(localStorage.globalCounter) < 25) {

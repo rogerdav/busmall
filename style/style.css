@@ -8,17 +8,41 @@ section img {
   height: 300px;
   width: 300px;
 }
-section {
-  height: 300px;
-  width: 300px;
-}
 
 main {
-  display: inline-flex;
+  height: 400px;
+  width: 960px;
 }
 header {
   text-align: center;
 }
 #section_one {
   margin-left: 150px;
+}
+body h1 {
+  background-color: blue;
+  font-style: italic;
+  font-size: 200px;
+  margin: 30px;
+}
+body {
+  background-color: aqua;
+}
+main p {
+  font-size: 30px;
+  color: blue;
+}
+div h2{
+  font-size: 30px;
+  color: blue;
+  text-align: center;
+  display: block;
+  margin-left: 220px;
+}
+#borderbox {
+  display:inline-flex;
+}
+#btn {
+  padding: 7px 10px;
+  border-radius: 3px;
 }
