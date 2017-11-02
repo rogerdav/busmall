@@ -1,6 +1,6 @@
 'use strict';
 // global variables
-var globalCounter = 0;
+var globalCounter;
 var imagesToUse = ['bag.jpg','banana.jpg','bathroom.jpg','boots.jpg','breakfast.jpg','bubblegum.jpg','chair.jpg','cthulhu.jpg','dog-duck.jpg','dragon.jpg','pen.jpg','pet-sweep.jpg','scissors.jpg','shark.jpg','sweep.png','tauntaun.jpg','unicorn.jpg','usb.gif','water-can.jpg','wine-glass.jpg'];
 var arrOfObjects = [];
 var frame1 = document.getElementById('section_one');
@@ -10,6 +10,7 @@ var arrOfTotalClicks = [];
 var arrOfTimesDisplayed = [];
 var arrOfPercentClicked = [];
 var lastDisplayed = [];
+var initial3 = []; //generate 3 numbers to start with
 
 // constructor function??
 function Picture(name) {
@@ -51,21 +52,21 @@ function displayPictures(x, y, z) {
   frame1img = document.createElement('div');
   var textToAppendFrame1 = '<img src="' + arrOfObjects[x].path + '" >';
   arrOfObjects[x].timesDisplayed++;
-  //console.log(textToAppendFrame1);
+  localStorage.x = x;
   frame1img.innerHTML = textToAppendFrame1;
   frame1.appendChild(frame1img);
   var frame2img;
   frame2img = document.createElement('div');
   var textToAppendFrame2 = '<img src="' + arrOfObjects[y].path + '" >';
   arrOfObjects[y].timesDisplayed++;
-  //console.log(textToAppendFrame2);
+  localStorage.y = y;
   frame2img.innerHTML = textToAppendFrame2;
   frame2.appendChild(frame2img);
   var frame3img;
   frame3img = document.createElement('div');
   var textToAppendFrame3 = '<img src="' + arrOfObjects[z].path + '" >';
   arrOfObjects[z].timesDisplayed++;
-  //console.log(textToAppendFrame3);
+  localStorage.z = z;
   frame3img.innerHTML = textToAppendFrame3;
   frame3.appendChild(frame3img);
 }
@@ -87,6 +88,7 @@ function listenAndCount() {
 }
 
 function calculateData() {
+  arrOfObjects = JSON.parse(localStorage.arrOfObjects);
   for (var w = 0; w < arrOfObjects.length; w++) {
     arrOfTotalClicks[w] = arrOfObjects[w].timesClicked;
     arrOfTimesDisplayed[w] = arrOfObjects[w].timesDisplayed;
@@ -103,13 +105,22 @@ function clearLastPage () {
 }
 function createCanvas() {
   var main = document.getElementsByTagName('main')[0];
+  var btn = document.createElement('div');
+  btn.innerHTML = '<button id="btn">Reset</button>';
   var canvas = document.createElement('canvas');
   canvas.setAttribute('id','totalchart');
   canvas.style.height = '600px';
   canvas.style.width = '960px';
   main.appendChild(canvas);
+  main.appendChild(btn);
+  var resetbtn = document.getElementsByTagName('button');
+  resetbtn[0].addEventListener('click',resetPage);
 }
 
+function resetPage(event) {
+  localStorage.clear();
+  window.location.reload();
+}
 function populateChart () {
   var ctx = document.getElementById('totalchart').getContext('2d');
   var chart = new Chart(ctx, {
@@ -151,7 +162,10 @@ function ifImageClicked(event) {
 
     lastDisplayed = initial3;
     initial3 = getNewThree();
+
     globalCounter++;
+    localStorage.globalCounter = globalCounter;
+
     var product = event.target.src.split('/').pop();//takes the filemane off of the string.
 
     for (var u = 0; u < arrOfObjects.length; u++) {
@@ -160,6 +174,7 @@ function ifImageClicked(event) {
         //console.log('filename + times clicked',arrOfObjects[u].timesClicked);
       }
     }
+    localStorage.arrOfObjects = JSON.stringify(arrOfObjects);
 
     clearPage();
     displayPictures(initial3[0],initial3[1],initial3[2]);
@@ -174,16 +189,31 @@ function ifImageClicked(event) {
 
   return;
 }
-
-
-// code start to run here
-
-for (var i = 0; i < imagesToUse.length; i++) { //populates the array with pic objects
-  var newImage = new Picture(imagesToUse[i]);
-  arrOfObjects.push(newImage);
+function initiatePage() {
+  globalCounter = 0;
+  for (var i = 0; i < imagesToUse.length; i++) { //populates the array with pic objects
+    var newImage = new Picture(imagesToUse[i]);
+    arrOfObjects.push(newImage);
+  }
+  initial3 = getNewThree();
+  displayPictures(initial3[0],initial3[1],initial3[2]); //displays the starting 3 pictures
+  listenAndCount(); // starts the listen function on images
 }
 
-var initial3 = getNewThree(); //generate 3 numbers to start with
-displayPictures(initial3[0],initial3[1],initial3[2]); //displays the starting 3 pictures
-globalCounter++; //adds initial vaue to counter
-listenAndCount(); // starts the listen function on images
+if (!localStorage.globalCounter) {
+  initiatePage();
+} else if (Number(localStorage.globalCounter) < 25) {
+  globalCounter = Number(localStorage.globalCounter);
+  arrOfObjects = JSON.parse(localStorage.arrOfObjects);
+  initial3[0] = Number(localStorage.x);
+  initial3[1] = Number(localStorage.y);
+  initial3[2] = Number(localStorage.z);
+  displayPictures(initial3[0],initial3[1],initial3[2]);
+  listenAndCount();
+} else {
+  console.log('im in the esle after 25');
+  clearLastPage();
+  calculateData();
+  createCanvas();
+  populateChart();
+}
