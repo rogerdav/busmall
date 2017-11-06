@@ -93,6 +93,7 @@ function calculateData() {
     arrOfTotalClicks[w] = arrOfObjects[w].timesClicked;
     arrOfTimesDisplayed[w] = arrOfObjects[w].timesDisplayed;
     arrOfPercentClicked[w] = arrOfObjects[w].timesClicked / arrOfObjects[w].timesDisplayed * 10;
+
   }
 // clears page after all images have been shown and
 }
@@ -110,7 +111,7 @@ function createCanvas() {
   btn.innerHTML = '<button id="btn">Reset</button>';
   var canvas = document.createElement('canvas');
   canvas.setAttribute('id','totalchart');
-  canvas.style.height = '150px';
+  canvas.style.height = '120px';
   canvas.style.width = '300px';
   main.appendChild(canvas);
   main.appendChild(btn);
@@ -145,7 +146,7 @@ function populateChart () {
         data: arrOfTimesDisplayed,
       },
       {
-        label: '% Chosen',
+        label: '% Chosen (1/10th)',
         backgroundColor: 'green',
         borderColor: 'green',
         data: arrOfPercentClicked,
